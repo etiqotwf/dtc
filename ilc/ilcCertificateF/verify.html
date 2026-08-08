@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Certificate Verification</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:100vh;
+}
+
+/* ===== CARD ===== */
+
+.verify-card{
+background:white;
+width:90%;
+max-width:420px;
+border-radius:14px;
+padding:25px;
+box-shadow:0 20px 60px rgba(0,0,0,.3);
+text-align:center;
+}
+
+.institute{
+font-size:26px;
+font-weight:800;
+color:#0f172a;
+}
+
+.subtitle{
+color:#64748b;
+margin-bottom:15px;
+}
+
+.status{
+padding:10px;
+border-radius:6px;
+font-weight:600;
+margin-bottom:20px;
+}
+
+.success{background:#dcfce7;color:#166534;}
+.error{background:#fee2e2;color:#991b1b;}
+.warning{background:#fef3c7;color:#92400e;}
+
+.info{
+background:#f8fafc;
+padding:20px;
+border-radius:10px;
+text-align:left;
+}
+
+.row{margin:8px 0;}
+.row span{font-weight:bold;}
+
+.serial{
+display:none;
+margin-top:15px;
+font-size:14px;
+color:#475569;
+}
+
+.viewBtn{
+margin-top:20px;
+padding:12px 20px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* 🔥 صورة الطالب في الكارد */
+
+.profileCard{
+width:100px;
+height:100px;
+border-radius:50%;
+overflow:hidden;
+margin:0 auto 15px;
+background:#e5e7eb;
+}
+
+.profileCard img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+/* ===== CERTIFICATE ===== */
+
+#certificate{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.85);
+z-index:1000;
+overflow:auto;
+cursor:pointer;
+}
+
+.certContainer{
+position:relative;
+width:641px;
+height:907px;
+margin:40px auto;
+background:white;
+}
+
+.bg{
+position:absolute;
+width:100%;
+height:100%;
+}
+
+/* 🔥 صورة الشهادة */
+
+.profileCert{
+position:absolute;
+top:105px;
+right:20px;
+width:120px;
+height:120px;
+border-radius:50%;
+overflow:hidden;
+background:#e5e7eb;
+}
+
+.profileCert img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.level{
+    display: none;
+}
+
+/* ===== أماكن البيانات ===== */
+
+.name{position:absolute;top:188px;left:220px;font-weight:bold;}
+.prenom{position:absolute;top:204px;left:220px;font-weight:bold;}
+.birth{position:absolute;top:221px;left:220px;font-weight:bold;}
+.code{position:absolute;top:237px;left:220px;font-weight:bold;}
+
+.centre{position:absolute;top:269px;left:220px;font-weight:bold;}
+.session{position:absolute;top:290px;left:400px;font-weight:bold;}
+.result{position:absolute;top:308px;left:400px;font-weight:bold;}
+
+.writing{position:absolute;top:453px;left:232px;font-weight:bold;}
+.reading{position:absolute;top:487px;left:232px;font-weight:bold;}
+.listening{position:absolute;top:527px;left:232px;font-weight:bold;}
+.speaking{position:absolute;top:565px;left:232px;font-weight:bold;}
+
+.level{position:absolute;top:605px;left:400px;font-weight:bold;}
+
+.serialCert{
+      display: none;
+position:absolute;
+bottom:715px;
+right:80px;
+font-weight:bold;
+}
+
+.qr{
+
+position:absolute;
+
+top:460px;
+left:400px;
+
+}
+
+
+
+
+.contactBox{
+margin-top:20px;
+padding:15px;
+background:#f1f5f9;
+border-radius:10px;
+text-align:left;
+border:1px solid #e2e8f0;
+}
+
+.contactTitle{
+font-weight:700;
+margin-bottom:10px;
+color:#0f172a;
+}
+
+.contactItem{
+margin:6px 0;
+color:#334155;
+font-size:14px;
+}
+
+
+.arabicOfficial{
+
+      display: none;
+
+margin:15px 0;
+padding:18px;
+background:linear-gradient(135deg,#1e3a8a,#0f172a);
+border-radius:12px;
+color:white;
+direction:rtl;
+text-align:right;
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+.arabicHeader{
+
+      display: none;
+
+font-size:18px;
+font-weight:900;
+margin-bottom:5px;
+}
+
+.arabicSub{
+      display: none;
+
+font-size:15px;
+color:#93c5fd;
+margin-bottom:10px;
+}
+
+.arabicDesc{
+
+      display: none;
+
+font-size:14px;
+line-height:1.8;
+margin-bottom:10px;
+}
+
+.arabicSite{
+
+      display: none;
+
+font-size:13px;
+color:#60a5fa;
+font-weight:bold;
+text-align:left;
+direction:ltr;
+}
+
+
+.result2{
+  position:absolute;
+top:675px;
+left:352px;
+font-size:16px;
+font-weight:bold;
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="verify-card">
+
+<div class="institute">ILC TANTA Institute</div>
+<div class="subtitle">Certificate Verification</div>
+
+<!-- 🔥 صورة -->
+<div class="profileCard">
+  <img id="cardImage" src="">
+</div>
+
+<div class="status" id="statusBox"></div>
+
+<div class="info">
+
+<div class="row"><span>Nom :</span> <span id="name"></span></div>
+<div class="row"><span>Prénom :</span> <span id="prenom"></span></div>
+<div class="row"><span>Date de naissance :</span> <span id="birthDate"></span></div>
+<div class="row"><span>Code Candidat :</span> <span id="candidateCode"></span></div>
+
+<div class="row"><span>Centre :</span> <span id="centre"></span></div>
+<div class="row"><span>Date Session :</span> <span id="sessionDate"></span></div>
+<div class="row"><span>Date Résultats :</span> <span id="resultDate"></span></div>
+
+<div class="row"><span>Writing :</span> <span id="writing"></span></div>
+<div class="row"><span>Reading :</span> <span id="reading"></span></div>
+<div class="row"><span>Listening :</span> <span id="listening"></span></div>
+<div class="row"><span>Speaking :</span> <span id="speaking"></span></div>
+<div class="row"><span>Level :</span> <span id="finalLevel"></span></div>
+
+
+</div>
+
+<div class="serial">
+Serial : <span id="serial"></span>
+</div>
+
+<div class="arabicOfficial">
+
+<div class="arabicHeader">
+المعهد البريطاني للغات - ILC
+</div>
+
+<div class="arabicSub">
+مكتب ترجمة معتمد بطنطا
+</div>
+
+<div class="arabicDesc">
+هو مكتب ترجمة معتمد بطنطا ILC المعهد البريطاني للغات يقدم خدمات ترجمة احترافية لجميع الوثائق والمستندات الرسمية
+</div>
+
+<div class="arabicSite">
+www.ilceg.com
+</div>
+
+</div>
+
+<div class="contactBox">
+
+<div class="contactTitle">Informations de contact</div>
+
+<div class="contactItem">📞 +20 403 309 156</div>
+<div class="contactItem">📱 +20 100 733 1245</div>
+<div class="contactItem">🌐 www.ilceg.com</div>
+<div class="contactItem">🪪 Numéro de licence : NQI T 347/571</div>
+
+</div>
+
+<button class="viewBtn" onclick="showCertificate()">View Certificate</button>
+
+</div>
+
+<!-- ===== الشهادة ===== -->
+
+<div id="certificate">
+
+<div class="certContainer">
+
+<img src="certificate.jpeg" class="bg">
+
+<!-- 🔥 صورة -->
+<div class="profileCert">
+  <img id="certImage" src="">
+</div>
+
+<div class="name" id="certName"></div>
+<div class="prenom" id="certPrenom"></div>
+<div class="birth" id="certBirth"></div>
+<div class="code" id="certCode"></div>
+
+<div class="centre" id="certCentre"></div>
+<div class="session" id="certSession"></div>
+<div class="result" id="certResult"></div>
+<div class="result2" id="certResult2"></div>
+
+<div class="writing" id="certWriting"></div>
+<div class="reading" id="certReading"></div>
+<div class="listening" id="certListening"></div>
+<div class="speaking" id="certSpeaking"></div>
+
+<div class="level" id="certLevel"></div>
+
+<div class="serialCert" id="certSerial"></div>
+
+<div class="qr" id="certQR"></div>
+
+</div>
+
+</div>
+
+<script>
+
+
+/* ===== أدوات احترافية ===== */
+
+/* 🇫🇷 تنسيق التاريخ */
+function formatDateFR(dateStr){
+if(!dateStr) return "";
+let d = new Date(dateStr);
+return d.toLocaleDateString("fr-FR", {
+year:"numeric",
+month:"long",
+day:"numeric",
+timeZone:"Africa/Cairo" // 🔥 توقيت مصر
+});
+}
+
+function getLevelFrom699(score){
+
+score = Number(score)
+
+if(score >= 549) return "C2"
+if(score >= 523) return "C1"
+if(score >= 458) return "B2"
+if(score >= 396) return "B1"
+
+return "A2"
+}
+/* 🎯 عرض Score + Level */
+function formatScore(score){
+let level = getLevelFrom699(score)
+return score + "   " + level
+}
+
+/* ===== Status ===== */
+
+function setStatus(message,type){
+let box = document.getElementById("statusBox");
+box.innerText = message;
+box.className = "status " + type;
+}
+
+/* ===== تحميل الشهادة ===== */
+
+function loadCert(serial){
+
+fetch("https://script.google.com/macros/s/AKfycbwODfc03GnwX4fqFgHHNXNVPUvYjFhpVMjoVOa1z_NjuVJ3z2bvMVvFvSb_DAg0kHhPLQ/exec?action=get&serial=" + serial)
+
+.then(res=>res.json())
+
+.then(cert=>{
+
+if(!cert || Object.keys(cert).length === 0){
+setStatus("❌ Certificat introuvable","error");
+return;
+}
+
+setStatus("✅ Certificat vérifié avec succès","success");
+
+/* 🔥 الصورة */
+
+let cardImg = document.getElementById("cardImage");
+let certImg = document.getElementById("certImage");
+
+if(cert.imageUrl){
+cardImg.src = cert.imageUrl;
+certImg.src = cert.imageUrl;
+}else{
+cardImg.style.display = "none";
+certImg.style.display = "none";
+}
+
+/* ===== البيانات (FR) ===== */
+
+document.getElementById("name").innerText = cert.name || "";
+document.getElementById("prenom").innerText = cert.prenom || "";
+document.getElementById("birthDate").innerText = formatDateFR(cert.birthDate);
+document.getElementById("candidateCode").innerText = cert.candidateCode || "";
+
+document.getElementById("centre").innerText = cert.centre || "";
+document.getElementById("sessionDate").innerText = formatDateFR(cert.sessionDate);
+document.getElementById("resultDate").innerText = formatDateFR(cert.resultDate);
+document.getElementById("certResult2").innerText = formatDateFR(cert.resultDate);
+
+/* 🔥 Scores */
+
+document.getElementById("writing").innerText = formatScore(cert.writing);
+document.getElementById("reading").innerText = formatScore(cert.reading);
+document.getElementById("listening").innerText = formatScore(cert.listening);
+document.getElementById("speaking").innerText = formatScore(cert.speaking);
+
+document.getElementById("finalLevel").innerText = cert.finalLevel || "";
+
+document.getElementById("serial").innerText = cert.serial;
+
+/* ===== الشهادة (مطابقة الأدمن) ===== */
+
+document.getElementById("certName").innerText = cert.name;
+document.getElementById("certPrenom").innerText = cert.prenom;
+document.getElementById("certBirth").innerText = formatDateFR(cert.birthDate);
+document.getElementById("certCode").innerText = cert.candidateCode;
+
+document.getElementById("certCentre").innerText = cert.centre;
+document.getElementById("certSession").innerText = formatDateFR(cert.sessionDate);
+document.getElementById("certResult").innerText = formatDateFR(cert.resultDate);
+document.getElementById("certResult2").innerText = formatDateNUM(cert.resultDate);
+
+/* نفس فورمات الأدمن */
+
+document.getElementById("certWriting").innerText = formatScore(cert.writing);
+document.getElementById("certReading").innerText = formatScore(cert.reading);
+document.getElementById("certListening").innerText = formatScore(cert.listening);
+document.getElementById("certSpeaking").innerText = formatScore(cert.speaking);
+
+document.getElementById("certLevel").innerText = cert.finalLevel;
+
+document.getElementById("certSerial").innerText = "Serial ILC : " + cert.serial;
+
+/* QR */
+
+let link = "https://etiqotwf.github.io/liveServer1/ilc/ilcCertificateF/verify.html?serial=" + cert.serial;
+
+document.getElementById("certQR").innerHTML = "";
+
+new QRCode(document.getElementById("certQR"),{
+text:link,
+width:100,
+height:100
+});
+
+})
+
+.catch(err=>{
+console.error(err);
+setStatus("⚠️ Erreur lors du chargement","warning");
+});
+
+}
+
+/* ===== عرض الشهادة ===== */
+
+function showCertificate(){
+document.getElementById("certificate").style.display="block";
+}
+
+document.getElementById("certificate").addEventListener("click",function(){
+this.style.display="none";
+});
+
+/* ===== URL ===== */
+
+let params = new URLSearchParams(window.location.search);
+let serial = params.get("serial");
+
+if(serial){
+loadCert(serial);
+}else{
+setStatus("⚠️ Aucun numéro fourni","warning");
+}
+
+
+function formatDateNUM(dateStr){
+if(!dateStr) return "";
+
+let d = new Date(dateStr);
+
+let day = String(d.getDate()).padStart(2,'0');
+let month = String(d.getMonth()+1).padStart(2,'0');
+let year = d.getFullYear();
+
+return day + "/" + month + "/" + year;
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Certificate Generator</title>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+padding:0;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+color:#333;
+min-height:100vh;
+}
+
+/* ===== ADMIN PANEL ===== */
+
+.admin{
+
+max-width:950px;
+margin:40px auto;
+
+background:white;
+padding:30px;
+
+border-radius:12px;
+
+box-shadow:0 15px 40px rgba(0,0,0,0.25);
+
+}
+
+.admin h2{
+margin-top:0;
+color:#0f172a;
+}
+
+.admin h3{
+color:#334155;
+margin-top:25px;
+}
+
+/* ===== INPUTS ===== */
+
+input{
+
+padding:12px 14px;
+margin:6px;
+
+width:200px;
+
+border:1px solid #cbd5e1;
+
+border-radius:6px;
+
+font-size:14px;
+
+transition:0.3s;
+
+}
+
+input:focus{
+
+outline:none;
+
+border-color:#3b82f6;
+
+box-shadow:0 0 0 3px rgba(59,130,246,0.15);
+
+}
+
+/* ===== BUTTONS ===== */
+
+button{
+
+padding:12px 20px;
+
+border:none;
+
+border-radius:6px;
+
+cursor:pointer;
+
+font-size:14px;
+
+font-weight:600;
+
+margin:5px;
+
+transition:0.3s;
+
+}
+
+/* generate */
+
+button:nth-of-type(1){
+
+background:#2563eb;
+color:white;
+
+}
+
+button:nth-of-type(1):hover{
+
+background:#1d4ed8;
+
+}
+
+/* download */
+
+#downloadBtn{
+
+background:#10b981;
+color:white;
+
+}
+
+#downloadBtn:hover{
+
+background:#059669;
+
+}
+
+/* search */
+
+button:last-of-type{
+
+background:#f59e0b;
+color:white;
+
+}
+
+button:last-of-type:hover{
+
+background:#d97706;
+
+}
+
+/* ===== CERTIFICATE AREA ===== */
+
+#certificate{
+
+position:relative;
+
+width:641px;
+height:907px;
+
+margin:40px auto;
+
+background:white;
+
+border-radius:8px;
+
+box-shadow:0 20px 60px rgba(0,0,0,0.4);
+
+overflow:hidden;
+
+}
+
+/* certificate bg */
+
+.bg{
+
+position:absolute;
+
+width:100%;
+height:100%;
+
+top:0;
+left:0;
+
+z-index:1;
+
+}
+
+/* text layers */
+
+#certificate div{
+
+z-index:2;
+
+}
+
+/* student name */
+
+.name{
+
+position:absolute;
+
+top:535px;
+
+left:0;
+right:0;
+
+text-align:center;
+
+font-size:21px;
+
+font-weight:bold;
+
+color:#111827;
+
+letter-spacing:1px;
+
+}
+
+/* course */
+
+.course{
+
+position:absolute;
+
+top:643px;
+
+left:0;
+right:0;
+
+text-align:center;
+
+font-size:19px;
+font-weight:bold;
+
+color:#1f2937;
+
+}
+
+/* date */
+
+.date{
+
+position:absolute;
+
+bottom:125px;
+
+left:205px;
+
+font-size:17px;
+font-weight:bold;
+
+color:#111827;
+
+}
+
+/* grade */
+
+.grade{
+
+position:absolute;
+
+bottom:100px;
+
+left:200px;
+
+font-size:17px;
+font-weight:bold;
+
+color:#111827;
+
+}
+
+/* serial */
+
+.serial{
+
+position:absolute;
+
+bottom:715px;
+
+right:70px;
+
+font-size:16px;
+font-weight:bold;
+
+color:#374151;
+
+}
+
+/* QR */
+
+.qr{
+
+position:absolute;
+
+bottom:150px;
+
+right:80px;
+
+}
+
+/* ===== Responsive ===== */
+
+@media(max-width:700px){
+
+#certificate{
+
+transform:scale(.7);
+transform-origin:top;
+
+}
+
+}
+
+.app-title{
+
+text-align:center;
+
+font-size:40px;
+
+font-weight:900;
+
+margin-top:30px;
+
+letter-spacing:2px;
+
+/* metallic gamer gradient */
+
+background: linear-gradient(
+120deg,
+#7f1d1d,
+#991b1b,
+#1e3a8a,
+#312e81,
+#7f1d1d
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+/* shine */
+
+
+}
+
+
+/* الخط المعدني تحت العنوان */
+
+.app-title::after{
+
+content:"";
+
+display:block;
+
+width:320px;
+
+height:4px;
+
+margin:12px auto;
+
+background: linear-gradient(
+90deg,
+#ff00cc,
+#00ffff,
+#00ff9d,
+#ffe600,
+#ff00cc
+);
+
+border-radius:6px;
+
+box-shadow:0 0 6px rgba(255,255,255,0.3);
+
+}
+
+
+
+.cert-table{
+
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+background:white;
+
+}
+
+.cert-table th{
+
+background:#111827;
+color:white;
+padding:10px;
+
+}
+
+.cert-table td{
+
+padding:10px;
+border-bottom:1px solid #ddd;
+text-align:center;
+
+}
+
+.cert-table tr:hover{
+
+background:#f1f5f9;
+
+}
+
+.cert-table button{
+
+padding:6px 10px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin:2px;
+
+}
+
+.cert-table button:nth-child(1){
+
+background:#2563eb;
+color:white;
+
+}
+
+.cert-table button:nth-child(2){
+
+background:#16a34a;
+color:white;
+
+}
+
+.cert-table button:nth-child(3){
+
+background:#dc2626;
+color:white;
+
+}
+
+
+/* container للسكرول */
+
+.table-container{
+
+max-height:300px;   /* تقريبا 5 صفوف */
+
+overflow-y:auto;
+
+border-radius:8px;
+
+border:1px solid #e5e7eb;
+
+}
+
+/* شكل السكرول */
+
+.table-container::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+.table-container::-webkit-scrollbar-track{
+
+background:#f1f5f9;
+
+}
+
+.table-container::-webkit-scrollbar-thumb{
+
+background:#64748b;
+
+border-radius:4px;
+
+}
+
+.table-container::-webkit-scrollbar-thumb:hover{
+
+background:#334155;
+
+}
+
+
+.panel-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:20px;
+
+}
+
+.fullscreen-btn{
+
+background:#7c3aed;
+
+color:white;
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:8px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.fullscreen-btn:hover{
+
+background:#6d28d9;
+
+transform:scale(1.05);
+
+}
+
+
+
+.sync-btn{
+
+background:#0ea5e9;
+
+color:white;
+
+padding:10px 18px;
+
+border:none;
+
+border-radius:8px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.3s;
+
+margin-left:10px;
+
+}
+
+.sync-btn:hover{
+
+background:#0284c7;
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<div class="admin">
+
+<h1 class="app-title">
+  Certificate Management System 
+</h1>
+<div class="panel-header">
+
+<h2>Admin Panel</h2>
+
+<button class="fullscreen-btn" onclick="toggleFullscreen()">
+Fullscreen
+</button>
+
+<button class="sync-btn" onclick="syncOfflineCertificates()">
+Upload Offline Data
+</button>
+
+</div>
+
+<input id="nameInput" placeholder="Student Name">
+
+<input id="courseInput" placeholder="Course Name">
+
+<input id="gradeInput" placeholder="Grade">
+
+<input type="date" id="dateInput">
+
+<br><br>
+
+<button id="generateBtn" onclick="generate()">Generate Certificate</button>
+
+<button onclick="updateCertificate()">Update Certificate</button>
+
+<button id="downloadBtn">Download Image</button>
+
+<button onclick="printCertificate()">Print Certificate</button>
+
+
+
+<h3>Print Calibration</h3>
+
+<button onclick="moveUp()">⬆ Up</button>
+<button onclick="moveDown()">⬇ Down</button>
+<button onclick="moveLeft()">⬅ Left</button>
+<button onclick="moveRight()">➡ Right</button>
+<button onclick="resetPrint()">Reset</button>
+
+<br><br>
+
+<h3>Search Certificate</h3>
+<div id="adminTable"></div>
+<input id="searchSerial" placeholder="Enter Serial Number">
+
+<button onclick="searchCertificate()">Search</button>
+
+<button onclick="showAdminTable()">Admin Dashboard</button>
+
+
+</div>
+
+
+<div id="certificate">
+
+<img src="certificate.jpeg" class="bg">
+
+<div class="serial" id="serial"></div>
+<div class="name" id="name"></div>
+<div class="course" id="course"></div>
+<div class="date" id="date"></div>
+<div class="grade" id="grade"></div>
+<div class="qr" id="qrcode"></div>
+
+</div>
+
+<script>
+
+let offsetX = localStorage.getItem("printOffsetX") || 0;
+let offsetY = localStorage.getItem("printOffsetY") || 0;
+
+
+  let editingSerial = null;
+
+/*
+
+document.addEventListener("click", () => {
+  const elem = document.documentElement;
+
+  if (document.fullscreenElement) return;
+
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  }
+});
+
+*/
+
+
+let db;
+
+const request = indexedDB.open("OfflineCertificatesDB",1);
+
+request.onupgradeneeded = function(e){
+
+db = e.target.result;
+
+if(!db.objectStoreNames.contains("pendingCertificates")){
+
+db.createObjectStore("pendingCertificates",{
+keyPath:"serial"
+});
+
+}
+
+};
+
+request.onsuccess = function(e){
+
+db = e.target.result;
+
+console.log("IndexedDB Ready");
+
+};
+
+request.onerror = function(){
+
+console.log("IndexedDB Error");
+
+};
+
+
+function saveOfflineCertificate(data){
+
+let tx = db.transaction("pendingCertificates","readwrite");
+
+let store = tx.objectStore("pendingCertificates");
+
+store.put(data);
+
+alert("No internet. Certificate saved offline.");
+
+}
+
+
+function generateSerial(){
+return Math.floor(10000000 + Math.random()*90000000).toString()
+}
+
+function generate(){
+
+let btn = document.getElementById("generateBtn");
+
+if(btn.disabled){
+return;
+}
+
+btn.disabled = true;
+btn.innerText = "Generating...";
+
+/* قراءة البيانات */
+
+let name = document.getElementById("nameInput").value.trim()
+let course = document.getElementById("courseInput").value.trim()
+let grade = document.getElementById("gradeInput").value.trim()
+let date = document.getElementById("dateInput").value
+
+/* تحقق من المدخلات */
+
+if(!name || !course || !grade || !date){
+
+alert("Please fill all fields");
+
+btn.disabled = false;
+btn.innerText = "Generate Certificate";
+
+return;
+
+}
+
+let serial = editingSerial ? editingSerial : generateSerial()
+
+/* عرض البيانات على الشهادة */
+
+document.getElementById("name").innerText = name
+document.getElementById("course").innerText = course
+document.getElementById("grade").innerText = grade
+document.getElementById("date").innerText = date
+document.getElementById("serial").innerText = "CERTIFICATION ID : ILC " + serial
+/* رابط التحقق */
+
+let verifyLink = "https://etiqotwf.github.io/liveServer1/ilc/ilcCertificate/verify.html?serial=" + serial;
+
+document.getElementById("qrcode").innerHTML=""
+
+new QRCode(document.getElementById("qrcode"),{
+text:verifyLink,
+width:90,
+height:90
+})
+
+/* حفظ محلي */
+
+let certs = JSON.parse(localStorage.getItem("certificates") || "[]")
+
+certs.push({
+name,
+course,
+grade,
+date,
+serial
+})
+
+localStorage.setItem("certificates", JSON.stringify(certs))
+
+/* إرسال البيانات إلى Google Sheet */
+
+const formData = new URLSearchParams();
+
+formData.append("action","add");
+formData.append("name",name);
+formData.append("course",course);
+formData.append("grade",grade);
+formData.append("date",date);
+formData.append("serial",serial);
+
+fetch("https://script.google.com/macros/s/AKfycbyqvacwgvC6UionZ7SmsI9HJUTOB_9isWkHWckaaf5UNGJnlqWaCnmabVAKtDv5ZDN6hg/exec",{
+
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:formData.toString()
+
+})
+.then(response => response.text())
+
+.then(res => {
+
+console.log("✅ Certificate saved to Google Sheet:", res);
+
+/* إعادة تفعيل الزر */
+
+btn.disabled = false;
+btn.innerText = "Generate Certificate";
+
+})
+
+.catch(error => {
+
+console.error("❌ Offline Mode:", error);
+
+/* حفظ أوفلاين */
+
+saveOfflineCertificate({
+name,
+course,
+grade,
+date,
+serial
+});
+
+btn.disabled = false;
+
+btn.innerText = "Generate Certificate";
+
+});
+
+}
+
+
+function download(){
+
+const cert = document.getElementById("certificate");
+
+html2canvas(cert,{
+scale:3
+}).then(canvas => {
+
+const link = document.createElement("a");
+link.download = "certificate.png";
+link.href = canvas.toDataURL();
+link.click();
+
+});
+
+}
+
+document.getElementById("downloadBtn").addEventListener("click", download);
+
+
+function searchCertificate(){
+
+let serial=document.getElementById("searchSerial").value
+
+let certs=JSON.parse(localStorage.getItem("certificates")||"[]")
+
+let student=certs.find(c=>c.serial===serial)
+
+if(student){
+
+document.getElementById("name").innerText=student.name
+document.getElementById("course").innerText=student.course
+document.getElementById("grade").innerText=student.grade
+document.getElementById("date").innerText=student.date
+document.getElementById("serial").innerText="CERTIFICATION ID : ILC "+student.serial
+document.getElementById("qrcode").innerHTML=""
+
+let verifyLink="https://etiqotwf.github.io/liveServer1/ilc/ilcCertificate/verify.html?serial="+student.serial;
+
+new QRCode(document.getElementById("qrcode"),{
+text:verifyLink,
+width:90,
+height:90
+})
+
+}else{
+
+alert("Certificate Not Found")
+
+}
+
+}
+
+
+window.onload=function(){
+
+let params=new URLSearchParams(window.location.search)
+
+let serial=params.get("serial")
+
+if(serial){
+
+let certs=JSON.parse(localStorage.getItem("certificates")||"[]")
+
+let student=certs.find(c=>c.serial===serial)
+
+if(student){
+
+document.getElementById("name").innerText=student.name
+document.getElementById("course").innerText=student.course
+document.getElementById("grade").innerText=student.grade
+document.getElementById("date").innerText=student.date
+document.getElementById("serial").innerText="CERTIFICATION ID : ILC "+student.serial
+}
+
+}
+
+}
+
+
+function showAdminTable(){
+
+let container = document.getElementById("adminTable");
+
+if(container.innerHTML !== ""){
+container.innerHTML="";
+return;
+}
+
+fetch("https://script.google.com/macros/s/AKfycbyqvacwgvC6UionZ7SmsI9HJUTOB_9isWkHWckaaf5UNGJnlqWaCnmabVAKtDv5ZDN6hg/exec?action=list")
+
+.then(res=>res.json())
+
+.then(certs=>{
+
+let html = `
+<h2>Certificates Dashboard</h2>
+
+<div class="table-container">
+
+<table class="cert-table">
+
+<tr>
+<th>Serial</th>
+<th>Student</th>
+<th>Course</th>
+<th>Actions</th>
+</tr>
+`;
+
+certs.forEach(cert=>{
+
+html += `
+
+<tr>
+
+<td>${cert.serial}</td>
+
+<td>${cert.name}</td>
+
+<td>${cert.course}</td>
+
+<td>
+
+<button onclick="viewCert('${cert.serial}')">View</button>
+
+<button onclick="editCert('${cert.serial}')">Edit</button>
+
+<button onclick="deleteCert('${cert.serial}')">Delete</button>
+
+</td>
+
+
+</tr>
+
+`;
+
+});
+
+html += `</table></div>`;
+
+container.innerHTML = html;
+
+});
+
+}
+
+
+
+function deleteCert(serial){
+
+if(!confirm("Are you sure you want to delete this certificate?")){
+return;
+}
+
+const formData = new URLSearchParams();
+
+formData.append("action","delete");
+formData.append("serial",serial);
+
+fetch("https://script.google.com/macros/s/AKfycbyqvacwgvC6UionZ7SmsI9HJUTOB_9isWkHWckaaf5UNGJnlqWaCnmabVAKtDv5ZDN6hg/exec",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:formData.toString()
+
+})
+
+.then(response => response.text())
+
+.then(res => {
+
+
+showAdminTable();
+
+})
+
+.catch(error => {
+
+console.error(error);
+
+alert("Error deleting certificate");
+
+});
+
+}
+
+
+function viewCert(serial){
+
+fetch("https://script.google.com/macros/s/AKfycbyqvacwgvC6UionZ7SmsI9HJUTOB_9isWkHWckaaf5UNGJnlqWaCnmabVAKtDv5ZDN6hg/exec?action=get&serial=" + serial)
+
+.then(response => response.json())
+
+.then(cert => {
+
+if(!cert){
+alert("Certificate not found");
+return;
+}
+
+/* اصلاح التاريخ */
+
+let formattedDate = cert.date.split("T")[0];
+
+document.getElementById("name").innerText = cert.name;
+document.getElementById("course").innerText = cert.course;
+document.getElementById("grade").innerText = cert.grade;
+document.getElementById("date").innerText = formattedDate;
+document.getElementById("serial").innerText = "CERTIFICATION ID : ILC " + serial
+// إنشاء QR
+
+document.getElementById("qrcode").innerHTML="";
+
+let verifyLink="https://etiqotwf.github.io/liveServer1/ilc/ilcCertificate/verify.html?serial="+cert.serial;
+
+new QRCode(document.getElementById("qrcode"),{
+text:verifyLink,
+width:90,
+height:90
+});
+
+})
+
+.catch(err => {
+
+console.error(err);
+alert("Error loading certificate");
+
+});
+
+}
+
+function updateCertificate(){
+
+if(!editingSerial){
+
+alert("No certificate selected for editing");
+
+return;
+
+}
+
+let name = document.getElementById("nameInput").value
+let course = document.getElementById("courseInput").value
+let grade = document.getElementById("gradeInput").value
+let date = document.getElementById("dateInput").value
+
+const formData = new URLSearchParams();
+
+formData.append("action","update");
+formData.append("name",name);
+formData.append("course",course);
+formData.append("grade",grade);
+formData.append("date",date);
+formData.append("serial",editingSerial);
+
+fetch("https://script.google.com/macros/s/AKfycbyqvacwgvC6UionZ7SmsI9HJUTOB_9isWkHWckaaf5UNGJnlqWaCnmabVAKtDv5ZDN6hg/exec",{
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:formData.toString()
+
+})
+
+.then(res => res.text())
+
+.then(data => {
+
+
+
+editingSerial = null;
+
+document.getElementById("nameInput").value="";
+document.getElementById("courseInput").value="";
+document.getElementById("gradeInput").value="";
+document.getElementById("dateInput").value="";
+
+showAdminTable();
+
+});
+
+}
+function editCert(serial){
+
+fetch("https://script.google.com/macros/s/AKfycbyqvacwgvC6UionZ7SmsI9HJUTOB_9isWkHWckaaf5UNGJnlqWaCnmabVAKtDv5ZDN6hg/exec?action=get&serial=" + serial)
+
+.then(res => res.json())
+
+.then(cert => {
+
+if(!cert){
+alert("Certificate not found");
+return;
+}
+
+/* تجهيز التاريخ */
+
+let formattedDate = cert.date.split("T")[0];
+
+/* ملء الفورم */
+
+document.getElementById("nameInput").value = cert.name;
+document.getElementById("courseInput").value = cert.course;
+document.getElementById("gradeInput").value = cert.grade;
+document.getElementById("dateInput").value = formattedDate;
+
+editingSerial = cert.serial;
+
+/* عرض الشهادة */
+
+document.getElementById("name").innerText = cert.name;
+document.getElementById("course").innerText = cert.course;
+document.getElementById("grade").innerText = cert.grade;
+document.getElementById("date").innerText = formattedDate;
+document.getElementById("serial").innerText = "CERTIFICATION ID : ILC " + serial
+/* إنشاء QR */
+
+document.getElementById("qrcode").innerHTML="";
+
+let verifyLink="https://etiqotwf.github.io/liveServer1/ilc/ilcCertificate/verify.html?serial="+cert.serial;
+
+new QRCode(document.getElementById("qrcode"),{
+text:verifyLink,
+width:90,
+height:90
+});
+
+})
+
+.catch(err=>{
+console.error(err);
+alert("Error loading certificate");
+});
+
+}
+
+function printCertificate(){
+
+let qrHTML = document.getElementById("qrcode").innerHTML;
+
+let printContent = `
+<html>
+<head>
+
+<style>
+
+@page{
+size:641px 907px;
+margin:0;
+}
+
+body{
+margin:0;
+padding:0;
+width:641px;
+height:907px;
+overflow:hidden;
+}
+
+/* الشهادة */
+
+
+.print-area{
+
+position:relative;
+
+width:641px;
+height:907px;
+
+background:url('certificate.jpeg') no-repeat center;
+
+background-size:100% 100%;
+
+}
+
+/* تحويل كل الخطوط */
+
+.print-area,
+.print-area *{
+
+font-family:"Times New Roman", Times, serif !important;
+
+}
+
+
+/* الاسم */
+
+.name{
+
+position:absolute;
+
+top:556px;
+
+left:50%;
+transform:translateX(-50%);
+
+width:100%;
+
+text-align:center;
+
+font-size:34px;
+
+font-weight:bold;
+
+color:#111;
+
+}
+
+/* الكورس */
+
+.course{
+
+position:absolute;
+
+top:690px;
+
+left:50%;
+transform:translateX(-50%);
+
+width:100%;
+
+text-align:center;
+
+font-size:30px;
+
+font-weight:bold;
+
+color:#111;
+
+}
+
+/* التاريخ */
+
+.date{
+
+position:absolute;
+
+bottom:60px;
+
+left:192px;
+
+font-size:25px;
+
+font-weight:bold;
+
+color:#111;
+
+}
+
+/* التقدير */
+
+.grade{
+
+position:absolute;
+
+bottom:25px;
+
+left:192px;
+
+font-size:25px;
+
+font-weight:bold;
+
+color:#111;
+
+}
+
+/* السيريال */
+
+.serial{
+
+position:absolute;
+
+top:102px;
+
+right:55px;
+
+font-size:20px;
+
+font-weight:bold;
+
+color:#222;
+
+}
+
+/* QR */
+
+.qr{
+
+position:absolute;
+
+bottom:82px;
+
+right:55px;
+
+}
+
+.qr img{
+
+width:90px !important;
+height:90px !important;
+
+}
+
+
+.signature{
+
+position:absolute; 
+
+bottom:2px;
+
+right:20px;
+
+width:200px;
+
+transform:translateY(30px);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="print-area" style="transform:translate(${offsetX}px,${offsetY}px)">
+
+<div class="serial">
+${document.getElementById("serial").innerText}
+</div>
+
+<div class="name">
+${document.getElementById("name").innerText}
+</div>
+
+<div class="course">
+${document.getElementById("course").innerText}
+</div>
+
+<div class="date">
+${document.getElementById("date").innerText}
+</div>
+
+<div class="grade">
+${document.getElementById("grade").innerText}
+</div>
+
+<div class="qr">
+${qrHTML}
+</div>
+
+<img src="signature.png" class="signature">
+</div>
+
+<script>
+
+window.onload=function(){
+
+window.print();
+
+}
+
+<\/script>
+
+</body>
+</html>
+`;
+
+let win = window.open("", "", "width=700,height=950");
+
+win.document.write(printContent);
+
+win.document.close();
+
+}
+
+function moveUp(){
+offsetY--;
+saveOffset();
+}
+
+function moveDown(){
+offsetY++;
+saveOffset();
+}
+
+function moveLeft(){
+offsetX--;
+saveOffset();
+}
+
+function moveRight(){
+offsetX++;
+saveOffset();
+}
+
+function resetPrint(){
+
+offsetX=0;
+offsetY=0;
+
+saveOffset();
+
+alert("Calibration Reset");
+
+}
+
+function saveOffset(){
+
+localStorage.setItem("printOffsetX",offsetX);
+localStorage.setItem("printOffsetY",offsetY);
+
+alert("Offset X : "+offsetX+" | Offset Y : "+offsetY);
+
+}
+
+
+
+function toggleFullscreen(){
+
+const elem = document.documentElement;
+
+/* دخول Fullscreen */
+
+if(!document.fullscreenElement){
+
+if(elem.requestFullscreen){
+
+elem.requestFullscreen();
+
+}else if(elem.webkitRequestFullscreen){
+
+elem.webkitRequestFullscreen();
+
+}else if(elem.msRequestFullscreen){
+
+elem.msRequestFullscreen();
+
+}
+
+}
+
+/* خروج من Fullscreen */
+
+else{
+
+if(document.exitFullscreen){
+
+document.exitFullscreen();
+
+}else if(document.webkitExitFullscreen){
+
+document.webkitExitFullscreen();
+
+}else if(document.msExitFullscreen){
+
+document.msExitFullscreen();
+
+}
+
+}
+
+}
+
+
+function syncOfflineCertificates(){
+
+if(!navigator.onLine){
+
+alert("No internet connection");
+
+return;
+
+}
+
+let tx = db.transaction("pendingCertificates","readonly");
+
+let store = tx.objectStore("pendingCertificates");
+
+let request = store.getAll();
+
+request.onsuccess = function(){
+
+let certificates = request.result;
+
+if(certificates.length === 0){
+
+alert("No offline certificates");
+
+return;
+
+}
+
+certificates.forEach(cert => {
+
+const formData = new URLSearchParams();
+
+formData.append("action","add");
+formData.append("name",cert.name);
+formData.append("course",cert.course);
+formData.append("grade",cert.grade);
+formData.append("date",cert.date);
+formData.append("serial",cert.serial);
+
+fetch("https://script.google.com/macros/s/AKfycbyqvacwgvC6UionZ7SmsI9HJUTOB_9isWkHWckaaf5UNGJnlqWaCnmabVAKtDv5ZDN6hg/exec",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:formData.toString()
+
+})
+
+.then(res => res.text())
+
+.then(() => {
+
+/* حذف بعد نجاح الإرسال */
+
+let deleteTx = db.transaction("pendingCertificates","readwrite");
+
+let deleteStore = deleteTx.objectStore("pendingCertificates");
+
+deleteStore.delete(cert.serial);
+
+console.log("Synced:", cert.serial);
+
+})
+
+.catch(err => {
+
+console.log("Sync Failed", err);
+
+});
+
+});
+
+alert("Offline certificates synced successfully");
+
+};
+
+}
+
+
+</script>
+
+</body>
+</html>
