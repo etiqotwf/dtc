@@ -465,292 +465,246 @@
   // 💾 حفظ التعديل
   // ==========================================================
 
-  async function saveCourse() {
+ async function saveCourse() {
 
-    const select =
-      document.getElementById(
-        "courseSelect"
-      );
+  const select =
+    document.getElementById("courseSelect");
 
+  const saveButton =
+    document.getElementById("saveButton");
 
-    const saveButton =
-      document.getElementById(
-        "saveButton"
-      );
+  const message =
+    document.getElementById("message");
 
+  const index =
+    select.value;
 
-    const message =
-      document.getElementById(
-        "message"
-      );
 
+  // ------------------------------------------
+  // التحقق من اختيار الدورة
+  // ------------------------------------------
 
-    const index =
-      select.value;
+  if (index === "") {
 
+    showMessage(
+      "من فضلك اختر الدورة أولًا",
+      "error"
+    );
 
-    // ------------------------------------------
-    // التحقق من اختيار الدورة
-    // ------------------------------------------
-
-    if (index === "") {
-
-      showMessage(
-        "من فضلك اختر الدورة أولًا",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    const oldCourse =
-      courses[index];
-
-
-    const newName =
-      document.getElementById(
-        "courseName"
-      ).value.trim();
-
-
-    const start =
-      document.getElementById(
-        "startDate"
-      ).value;
-
-
-    const end =
-      document.getElementById(
-        "endDate"
-      ).value;
-
-
-    // ------------------------------------------
-    // التحقق من البيانات
-    // ------------------------------------------
-
-    if (!newName) {
-
-      showMessage(
-        "من فضلك اكتب اسم الدورة",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if (!start) {
-
-      showMessage(
-        "من فضلك اختر تاريخ البداية",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if (!end) {
-
-      showMessage(
-        "من فضلك اختر تاريخ النهاية",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if (end < start) {
-
-      showMessage(
-        "تاريخ النهاية لا يمكن أن يكون قبل تاريخ البداية",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    // ------------------------------------------
-    // تعطيل الزر أثناء الحفظ
-    // ------------------------------------------
-
-    saveButton.disabled =
-      true;
-
-    saveButton.textContent =
-      "⏳ جاري الحفظ...";
-
-
-    message.className =
-      "message";
-
-
-    message.style.display =
-      "none";
-
-
-    try {
-
-      // ----------------------------------------
-      // تجهيز البيانات
-      // ----------------------------------------
-
-      const params =
-        new URLSearchParams();
-
-
-      params.append(
-        "action",
-        "updateCourse"
-      );
-
-
-      params.append(
-        "oldName",
-        oldCourse.name
-      );
-
-
-      params.append(
-        "newName",
-        newName
-      );
-
-
-      params.append(
-        "start",
-        removeLeadingZeros(start)
-      );
-
-
-      params.append(
-        "end",
-        removeLeadingZeros(end)
-      );
-
-
-      // ----------------------------------------
-      // إرسال التعديل
-      // ----------------------------------------
-
-      const response =
-        await fetch(
-          API_URL,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/x-www-form-urlencoded;charset=UTF-8"
-            },
-
-            body:
-              params.toString()
-          }
-        );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          "HTTP Error: " +
-          response.status
-        );
-
-      }
-
-
-      const result =
-        await response.json();
-
-
-      console.log(
-        "Update result:",
-        result
-      );
-
-
-      if (!result.success) {
-
-        throw new Error(
-          result.error ||
-          "فشل حفظ التعديل"
-        );
-
-      }
-
-
-      // ----------------------------------------
-      // نجاح
-      // ----------------------------------------
-
-      showMessage(
-        "✅ تم حفظ تعديل الدورة بنجاح",
-        "success"
-      );
-
-
-      // تحديث البيانات محليًا
-
-      courses[index] = {
-
-        name: newName,
-
-        start:
-          removeLeadingZeros(start),
-
-        end:
-          removeLeadingZeros(end)
-
-      };
-
-
-      fillCourseSelect();
-
-
-      select.value =
-        index;
-
-
-    } catch (error) {
-
-      console.error(error);
-
-
-      showMessage(
-        "❌ حدث خطأ أثناء الحفظ: " +
-        error.message,
-        "error"
-      );
-
-
-    } finally {
-
-      saveButton.disabled =
-        false;
-
-      saveButton.textContent =
-        "💾 حفظ التعديل";
-
-    }
-
+    return;
   }
 
 
-  // ==========================================================
-  // 📅 إزالة الأصفار الزائدة من التاريخ
-  // ==========================================================
+  const oldCourse =
+    courses[index];
 
-  function removeLeadingZeros(dateString) {
+  const newName =
+    document.getElementById("courseName").value.trim();
+
+  const start =
+    document.getElementById("startDate").value;
+
+  const end =
+    document.getElementById("endDate").value;
+
+
+  // ------------------------------------------
+  // التحقق من البيانات
+  // ------------------------------------------
+
+  if (!newName) {
+
+    showMessage(
+      "من فضلك اكتب اسم الدورة",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!start) {
+
+    showMessage(
+      "من فضلك اختر تاريخ البداية",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (!end) {
+
+    showMessage(
+      "من فضلك اختر تاريخ النهاية",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (end < start) {
+
+    showMessage(
+      "تاريخ النهاية لا يمكن أن يكون قبل تاريخ البداية",
+      "error"
+    );
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // تعطيل الزر أثناء الحفظ
+  // ------------------------------------------
+
+  saveButton.disabled = true;
+
+  saveButton.textContent =
+    "⏳ جاري الحفظ...";
+
+  message.className = "message";
+
+  message.style.display = "none";
+
+
+  try {
+
+    // ----------------------------------------
+    // تجهيز البيانات
+    // ----------------------------------------
+
+    const params =
+      new URLSearchParams();
+
+    params.append(
+      "action",
+      "updateCourse"
+    );
+
+    params.append(
+      "oldName",
+      oldCourse.name
+    );
+
+    params.append(
+      "newName",
+      newName
+    );
+
+    params.append(
+      "start",
+      removeLeadingZeros(start)
+    );
+
+    params.append(
+      "end",
+      removeLeadingZeros(end)
+    );
+
+
+    // ----------------------------------------
+    // إرسال التعديل باستخدام GET
+    // ----------------------------------------
+
+    const requestUrl =
+      API_URL + "?" + params.toString();
+
+    console.log(
+      "Update URL:",
+      requestUrl
+    );
+
+
+    const response =
+      await fetch(requestUrl);
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "HTTP Error: " +
+        response.status
+      );
+
+    }
+
+
+    const result =
+      await response.json();
+
+
+    console.log(
+      "Update result:",
+      result
+    );
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.error ||
+        "فشل حفظ التعديل"
+      );
+
+    }
+
+
+    // ----------------------------------------
+    // نجاح
+    // ----------------------------------------
+
+    showMessage(
+      "✅ تم حفظ تعديل الدورة بنجاح",
+      "success"
+    );
+
+
+    // ----------------------------------------
+    // تحديث البيانات محليًا
+    // ----------------------------------------
+
+    courses[index] = {
+
+      name: newName,
+
+      start:
+        removeLeadingZeros(start),
+
+      end:
+        removeLeadingZeros(end)
+
+    };
+
+
+    fillCourseSelect();
+
+    select.value = index;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      "❌ حدث خطأ أثناء الحفظ: " +
+      error.message,
+      "error"
+    );
+
+
+  } finally {
+
+    saveButton.disabled = false;
+
+    saveButton.textContent =
+      "💾 حفظ التعديل";
+
+  }
+
+}  function removeLeadingZeros(dateString) {
 
     const parts =
       dateString.split("-");
