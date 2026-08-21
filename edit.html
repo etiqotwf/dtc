@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta name="viewport"
@@ -11,201 +12,911 @@
 
   <style>
 
+    /* =========================================================
+       🎨 الأساس
+       ========================================================= */
+
     * {
       box-sizing: border-box;
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, Tahoma, sans-serif;
-      background: #f3f6f9;
-      color: #222;
+    :root {
+
+      --bg-main: #070b18;
+      --bg-card: rgba(17, 24, 45, 0.88);
+      --bg-input: rgba(255,255,255,0.06);
+
+      --primary: #7c3aed;
+      --primary-light: #a78bfa;
+
+      --blue: #3b82f6;
+      --cyan: #06b6d4;
+
+      --green: #10b981;
+      --green-light: #34d399;
+
+      --orange: #f97316;
+
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+
+      --border: rgba(255,255,255,0.10);
+
+      --shadow:
+        0 25px 70px rgba(0,0,0,0.45);
+
     }
+
+
+    /* =========================================================
+       🌌 الخلفية
+       ========================================================= */
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
+
+      color: var(--text);
+
+      background:
+
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(124,58,237,0.25),
+          transparent 30%
+        ),
+
+        radial-gradient(
+          circle at 90% 20%,
+          rgba(6,182,212,0.18),
+          transparent 30%
+        ),
+
+        radial-gradient(
+          circle at 50% 100%,
+          rgba(59,130,246,0.15),
+          transparent 35%
+        ),
+
+        var(--bg-main);
+
+      padding: 30px 15px;
+
+    }
+
+
+    /* =========================================================
+       ✨ تأثير الخلفية
+       ========================================================= */
+
+    body::before {
+
+      content: "";
+
+      position: fixed;
+
+      inset: 0;
+
+      pointer-events: none;
+
+      background-image:
+        linear-gradient(
+          rgba(255,255,255,0.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,0.025) 1px,
+          transparent 1px
+        );
+
+      background-size: 40px 40px;
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent
+        );
+
+    }
+
+
+    /* =========================================================
+       📦 الحاوية
+       ========================================================= */
 
     .container {
-      width: min(650px, 94%);
-      margin: 35px auto;
+
+      width: min(720px, 96%);
+
+      margin: auto;
+
+      position: relative;
+
+      z-index: 1;
+
     }
+
+
+    /* =========================================================
+       🪟 الكارت الرئيسي
+       ========================================================= */
 
     .card {
-      background: white;
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.08),
+          rgba(255,255,255,0.025)
+        );
+
+      backdrop-filter: blur(18px);
+
+      -webkit-backdrop-filter: blur(18px);
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius: 28px;
+
+      padding: 28px;
+
+      box-shadow: var(--shadow);
+
     }
+
+
+    /* =========================================================
+       🏆 العنوان
+       ========================================================= */
+
+    .header {
+
+      text-align: center;
+
+      margin-bottom: 28px;
+
+    }
+
+
+    .logo {
+
+      width: 72px;
+
+      height: 72px;
+
+      margin: 0 auto 15px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border-radius: 22px;
+
+      font-size: 35px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--blue)
+        );
+
+      box-shadow:
+        0 12px 35px
+        rgba(124,58,237,0.45);
+
+    }
+
 
     h1 {
-      text-align: center;
-      margin-top: 0;
-      margin-bottom: 25px;
-      font-size: 26px;
+
+      margin: 0;
+
+      font-size: 28px;
+
+      font-weight: 800;
+
+      letter-spacing: -0.5px;
+
     }
 
-    /* ==========================================================
-       أزرار الصفحات الثلاث
-       ========================================================== */
+
+    .subtitle {
+
+      margin-top: 9px;
+
+      color: var(--text-muted);
+
+      font-size: 14px;
+
+    }
+
+
+    /* =========================================================
+       🎛️ أزرار الصفحات
+       ========================================================= */
 
     .page-buttons {
+
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 25px;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 12px;
+
+      margin-bottom: 20px;
+
     }
+
 
     .page-button {
-      margin: 0;
-      padding: 13px 8px;
-      border: none;
-      border-radius: 10px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      border: 1px solid var(--border);
+
+      border-radius: 16px;
+
+      padding: 16px 10px;
+
       font-size: 15px;
+
       font-weight: bold;
+
       cursor: pointer;
-      background: #e9ecef;
-      color: #333;
-      transition: 0.2s;
+
+      color: #cbd5e1;
+
+      background:
+        rgba(255,255,255,0.05);
+
+      transition:
+        transform .2s,
+        box-shadow .2s,
+        background .2s;
+
     }
+
+
+    .page-button::before {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        linear-gradient(
+          120deg,
+          transparent,
+          rgba(255,255,255,0.12),
+          transparent
+        );
+
+      transform:
+        translateX(-100%);
+
+      transition: .5s;
+
+    }
+
+
+    .page-button:hover::before {
+
+      transform:
+        translateX(100%);
+
+    }
+
 
     .page-button:hover {
-      opacity: 0.9;
+
+      transform:
+        translateY(-2px);
+
     }
+
 
     .page-button.active {
-      background: #0d6efd;
+
       color: white;
+
+      border-color:
+        rgba(124,58,237,0.8);
+
+      background:
+        linear-gradient(
+          135deg,
+          #7c3aed,
+          #2563eb
+        );
+
+      box-shadow:
+        0 10px 30px
+        rgba(124,58,237,0.35);
+
     }
 
-    .page-title {
-      text-align: center;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #0d6efd;
-      font-size: 18px;
+
+    /* =========================================================
+       🔗 رابط الصفحة
+       ========================================================= */
+
+    .page-link-card {
+
+      padding: 18px;
+
+      margin-bottom: 25px;
+
+      border-radius: 18px;
+
+      border:
+        1px solid
+        rgba(6,182,212,0.25);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(6,182,212,0.09),
+          rgba(59,130,246,0.06)
+        );
+
     }
+
+
+    .page-link-title {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      color: #67e8f9;
+
+      margin-bottom: 12px;
+
+    }
+
+
+    .link-row {
+
+      display: flex;
+
+      gap: 9px;
+
+    }
+
+
+    #pageLink {
+
+      flex: 1;
+
+      min-width: 0;
+
+      direction: ltr;
+
+      text-align: left;
+
+      padding: 13px 14px;
+
+      border-radius: 12px;
+
+      border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+      background:
+        rgba(0,0,0,0.25);
+
+      color: #e2e8f0;
+
+      font-size: 13px;
+
+      outline: none;
+
+    }
+
+
+    .link-button {
+
+      border: none;
+
+      border-radius: 12px;
+
+      padding: 0 18px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      color: white;
+
+      transition: .2s;
+
+      white-space: nowrap;
+
+    }
+
+
+    .copy-button {
+
+      background:
+        linear-gradient(
+          135deg,
+          #06b6d4,
+          #2563eb
+        );
+
+      box-shadow:
+        0 8px 20px
+        rgba(6,182,212,0.22);
+
+    }
+
+
+    .open-button {
+
+      background:
+        rgba(255,255,255,0.08);
+
+      border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+    }
+
+
+    .link-button:hover {
+
+      transform:
+        translateY(-2px);
+
+    }
+
+
+    /* =========================================================
+       📂 اسم الصفحة
+       ========================================================= */
+
+    .current-file {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 8px;
+
+      margin-bottom: 20px;
+
+      padding: 10px;
+
+      border-radius: 12px;
+
+      color: var(--text-muted);
+
+      background:
+        rgba(255,255,255,0.04);
+
+      font-size: 13px;
+
+    }
+
+
+    .status-dot {
+
+      width: 8px;
+
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--green-light);
+
+      box-shadow:
+        0 0 12px
+        var(--green);
+
+    }
+
+
+    /* =========================================================
+       ⏳ التحميل
+       ========================================================= */
+
+    .loading {
+
+      text-align: center;
+
+      padding: 35px 15px;
+
+      color: var(--text-muted);
+
+    }
+
+
+    .loader {
+
+      width: 45px;
+
+      height: 45px;
+
+      margin: 0 auto 15px;
+
+      border:
+        3px solid
+        rgba(255,255,255,0.1);
+
+      border-top-color:
+        var(--primary-light);
+
+      border-radius: 50%;
+
+      animation:
+        spin .8s linear infinite;
+
+    }
+
+
+    @keyframes spin {
+
+      to {
+        transform: rotate(360deg);
+      }
+
+    }
+
+
+    /* =========================================================
+       📝 الحقول
+       ========================================================= */
+
+    .form-section {
+
+      padding-top: 4px;
+
+    }
+
+
+    .field {
+
+      margin-top: 18px;
+
+    }
+
 
     label {
+
       display: block;
-      margin-top: 18px;
-      margin-bottom: 8px;
+
+      margin-bottom: 9px;
+
       font-weight: bold;
+
+      color: #e2e8f0;
+
+      font-size: 14px;
+
     }
+
 
     select,
     input {
+
       width: 100%;
-      padding: 13px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+
+      padding: 14px;
+
+      border-radius: 12px;
+
+      border:
+        1px solid
+        var(--border);
+
+      background:
+        var(--bg-input);
+
+      color: white;
+
       font-size: 16px;
-      direction: rtl;
-      background: white;
+
+      outline: none;
+
+      transition: .2s;
+
     }
+
+
+    select option {
+
+      background: #111827;
+
+      color: white;
+
+    }
+
+
+    select:focus,
+    input:focus {
+
+      border-color:
+        var(--primary-light);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(124,58,237,0.15);
+
+    }
+
 
     input[type="date"] {
+
       direction: ltr;
+
       text-align: left;
+
     }
+
+
+    /* =========================================================
+       💾 زر الحفظ
+       ========================================================= */
 
     #saveButton {
+
       width: 100%;
-      margin-top: 25px;
-      padding: 14px;
+
+      margin-top: 27px;
+
+      padding: 16px;
+
       border: none;
-      border-radius: 8px;
+
+      border-radius: 14px;
+
       font-size: 17px;
-      font-weight: bold;
+
+      font-weight: 800;
+
       cursor: pointer;
-      background: #198754;
+
       color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #10b981,
+          #059669
+        );
+
+      box-shadow:
+        0 12px 30px
+        rgba(16,185,129,0.25);
+
+      transition: .2s;
+
     }
+
 
     #saveButton:hover {
-      opacity: 0.9;
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 16px 35px
+        rgba(16,185,129,0.35);
+
     }
+
 
     #saveButton:disabled {
-      background: #999;
+
+      opacity: .55;
+
       cursor: not-allowed;
+
+      transform: none;
+
     }
+
+
+    /* =========================================================
+       💬 الرسائل
+       ========================================================= */
 
     .message {
+
       display: none;
+
       margin-top: 18px;
-      padding: 13px;
-      border-radius: 8px;
+
+      padding: 14px;
+
+      border-radius: 13px;
+
       text-align: center;
+
       font-weight: bold;
+
+      line-height: 1.7;
+
     }
+
 
     .success {
+
       display: block;
-      background: #d1e7dd;
-      color: #0f5132;
+
+      color: #6ee7b7;
+
+      background:
+        rgba(16,185,129,0.12);
+
+      border:
+        1px solid
+        rgba(16,185,129,0.25);
+
     }
+
 
     .error {
+
       display: block;
-      background: #f8d7da;
-      color: #842029;
+
+      color: #fca5a5;
+
+      background:
+        rgba(239,68,68,0.12);
+
+      border:
+        1px solid
+        rgba(239,68,68,0.25);
+
     }
 
-    .loading {
-      text-align: center;
-      padding: 20px;
-      color: #666;
-    }
+
+    /* =========================================================
+       📌 الملاحظة
+       ========================================================= */
 
     .note {
+
       margin-top: 20px;
-      padding: 12px;
-      background: #fff3cd;
-      color: #664d03;
-      border-radius: 8px;
-      font-size: 14px;
-      line-height: 1.7;
+
+      padding: 14px;
+
+      border-radius: 13px;
+
+      background:
+        rgba(249,115,22,0.08);
+
+      border:
+        1px solid
+        rgba(249,115,22,0.18);
+
+      color: #fdba74;
+
+      font-size: 13px;
+
+      line-height: 1.8;
+
     }
 
-    .current-file {
-      text-align: center;
-      margin-bottom: 20px;
-      padding: 8px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      color: #555;
-      font-size: 14px;
-    }
 
-    @media (max-width: 500px) {
+    /* =========================================================
+       📱 موبايل
+       ========================================================= */
+
+    @media (max-width: 600px) {
+
+      body {
+        padding: 15px 8px;
+      }
+
+
+      .card {
+        padding: 20px 15px;
+        border-radius: 22px;
+      }
+
+
+      h1 {
+        font-size: 24px;
+      }
+
 
       .page-buttons {
         grid-template-columns: 1fr;
       }
 
+
       .page-button {
         padding: 14px;
+      }
+
+
+      .link-row {
+        flex-direction: column;
+      }
+
+
+      #pageLink {
+        width: 100%;
+      }
+
+
+      .link-button {
+        width: 100%;
+        padding: 13px;
       }
 
     }
 
   </style>
+
 </head>
 
 
 <body>
 
+
 <div class="container">
+
 
   <div class="card">
 
-    <h1>
-      ✏️ لوحة إدارة الدورات
-    </h1>
+
+    <!-- =====================================================
+         🏆 HEADER
+         ===================================================== -->
+
+    <div class="header">
+
+      <div class="logo">
+        ✏️
+      </div>
+
+      <h1>
+        لوحة إدارة الدورات
+      </h1>
+
+      <div class="subtitle">
+        إدارة وتحديث صفحات الدورات بسهولة
+      </div>
+
+    </div>
 
 
-    <!-- ==========================================================
-         أزرار الصفحات الثلاث
-         ========================================================== -->
+    <!-- =====================================================
+         🎛️ الصفحات الثلاث
+         ===================================================== -->
 
     <div class="page-buttons">
+
 
       <button
         type="button"
@@ -239,90 +950,177 @@
 
       </button>
 
+
     </div>
 
 
-    <!-- اسم الملف الحالي -->
+    <!-- =====================================================
+         🔗 رابط الصفحة
+         ===================================================== -->
+
+    <div class="page-link-card">
+
+
+      <div class="page-link-title">
+
+        🔗 رابط الصفحة الحالية
+
+      </div>
+
+
+      <div class="link-row">
+
+
+        <input
+          id="pageLink"
+          type="text"
+          readonly>
+
+
+        <button
+          type="button"
+          class="link-button copy-button"
+          onclick="copyPageLink()">
+
+          📋 نسخ
+
+        </button>
+
+
+        <button
+          type="button"
+          class="link-button open-button"
+          onclick="openPageLink()">
+
+          ↗ فتح
+
+        </button>
+
+
+      </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         📄 الملف الحالي
+         ===================================================== -->
 
     <div
       id="currentFile"
       class="current-file">
 
-      الملف الحالي: index.html
+      <span class="status-dot"></span>
+
+      <span>
+        الصفحة الحالية: index.html
+      </span>
 
     </div>
 
 
-    <div id="loading" class="loading">
+    <!-- =====================================================
+         ⏳ LOADING
+         ===================================================== -->
 
-      جاري تحميل الدورات...
+    <div
+      id="loading"
+      class="loading">
+
+      <div class="loader"></div>
+
+      <div>
+        جاري تحميل الدورات...
+      </div>
 
     </div>
 
 
-    <div id="formArea" style="display:none;">
+    <!-- =====================================================
+         📝 FORM
+         ===================================================== -->
+
+    <div
+      id="formArea"
+      class="form-section"
+      style="display:none;">
 
 
-      <!-- ==========================================================
-           اختيار الدورة
-           ========================================================== -->
+      <!-- الدورة -->
 
-      <label for="courseSelect">
-        اختر الدورة
-      </label>
+      <div class="field">
 
-      <select id="courseSelect">
+        <label for="courseSelect">
 
-        <option value="">
-          اختر الدورة...
-        </option>
+          🎓 اختر الدورة
 
-      </select>
+        </label>
 
+        <select id="courseSelect">
 
-      <!-- ==========================================================
-           اسم الدورة
-           ========================================================== -->
+          <option value="">
+            اختر الدورة...
+          </option>
 
-      <label for="courseName">
-        اسم الدورة
-      </label>
+        </select>
 
-      <input
-        type="text"
-        id="courseName"
-        placeholder="اكتب اسم الدورة">
+      </div>
 
 
-      <!-- ==========================================================
-           تاريخ البداية
-           ========================================================== -->
+      <!-- اسم الدورة -->
 
-      <label for="startDate">
-        تاريخ البداية
-      </label>
+      <div class="field">
 
-      <input
-        type="date"
-        id="startDate">
+        <label for="courseName">
 
+          ✏️ اسم الدورة
 
-      <!-- ==========================================================
-           تاريخ النهاية
-           ========================================================== -->
+        </label>
 
-      <label for="endDate">
-        تاريخ النهاية
-      </label>
+        <input
+          type="text"
+          id="courseName"
+          placeholder="اكتب اسم الدورة">
 
-      <input
-        type="date"
-        id="endDate">
+      </div>
 
 
-      <!-- ==========================================================
-           زر الحفظ
-           ========================================================== -->
+      <!-- تاريخ البداية -->
+
+      <div class="field">
+
+        <label for="startDate">
+
+          📅 تاريخ البداية
+
+        </label>
+
+        <input
+          type="date"
+          id="startDate">
+
+      </div>
+
+
+      <!-- تاريخ النهاية -->
+
+      <div class="field">
+
+        <label for="endDate">
+
+          📅 تاريخ النهاية
+
+        </label>
+
+        <input
+          type="date"
+          id="endDate">
+
+      </div>
+
+
+      <!-- حفظ -->
 
       <button
         id="saveButton"
@@ -333,9 +1131,7 @@
       </button>
 
 
-      <!-- ==========================================================
-           الرسالة
-           ========================================================== -->
+      <!-- رسالة -->
 
       <div
         id="message"
@@ -343,21 +1139,27 @@
       </div>
 
 
+      <!-- ملاحظة -->
+
       <div class="note">
 
-        ⚠️ بعد الحفظ، قد يستغرق ظهور التعديل على الموقع
-        دقيقة أو دقيقتين بسبب GitHub Pages.
+        ⚡ بعد الحفظ، قد يستغرق ظهور التعديل
+        على الموقع دقيقة أو دقيقتين بسبب GitHub Pages.
 
       </div>
 
+
     </div>
 
+
   </div>
+
 
 </div>
 
 
 <script>
+
 
   // ==========================================================
   // 🔗 رابط Google Apps Script
@@ -365,6 +1167,14 @@
 
   const API_URL =
     "https://script.google.com/macros/s/AKfycbxPotVvMJL14gQPMzWRbJYL5gcCdYGnzYahrgj4BPQrscVJ3W98zEzbfKpqwKJt5ZmT/exec";
+
+
+  // ==========================================================
+  // 🌐 رابط الموقع الأساسي
+  // ==========================================================
+
+  const SITE_URL =
+    "https://etiqotwf.github.io/dtc/";
 
 
   // ==========================================================
@@ -392,12 +1202,139 @@
 
 
   // ==========================================================
+  // 🔗 الحصول على رابط الصفحة
+  // ==========================================================
+
+  function getPageUrl(page) {
+
+    return (
+      SITE_URL +
+      PAGE_FILES[page]
+    );
+
+  }
+
+
+  // ==========================================================
+  // 🔗 تحديث رابط الصفحة
+  // ==========================================================
+
+  function updatePageLink() {
+
+    const url =
+      getPageUrl(
+        currentPage
+      );
+
+
+    document.getElementById(
+      "pageLink"
+    ).value = url;
+
+
+    document.getElementById(
+      "currentFile"
+    ).innerHTML =
+
+      '<span class="status-dot"></span>' +
+
+      '<span>' +
+
+      "الصفحة الحالية: " +
+
+      PAGE_FILES[currentPage] +
+
+      '</span>';
+
+  }
+
+
+  // ==========================================================
+  // 📋 نسخ الرابط
+  // ==========================================================
+
+  async function copyPageLink() {
+
+    const url =
+      getPageUrl(
+        currentPage
+      );
+
+
+    try {
+
+      await navigator.clipboard.writeText(
+        url
+      );
+
+
+      showMessage(
+        "✅ تم نسخ رابط الصفحة بنجاح — يمكنك إرساله على واتساب",
+        "success"
+      );
+
+
+    } catch (error) {
+
+
+      const input =
+        document.getElementById(
+          "pageLink"
+        );
+
+
+      input.select();
+
+      input.setSelectionRange(
+        0,
+        99999
+      );
+
+
+      document.execCommand(
+        "copy"
+      );
+
+
+      showMessage(
+        "✅ تم نسخ رابط الصفحة",
+        "success"
+      );
+
+    }
+
+  }
+
+
+  // ==========================================================
+  // ↗ فتح الصفحة
+  // ==========================================================
+
+  function openPageLink() {
+
+    const url =
+      getPageUrl(
+        currentPage
+      );
+
+
+    window.open(
+      url,
+      "_blank"
+    );
+
+  }
+
+
+  // ==========================================================
   // 🚀 عند فتح الصفحة
   // ==========================================================
 
   document.addEventListener(
     "DOMContentLoaded",
     function () {
+
+      updatePageLink();
 
       loadCourses();
 
@@ -411,6 +1348,7 @@
 
   async function changePage(page) {
 
+
     if (!PAGE_FILES[page]) {
 
       showMessage(
@@ -419,43 +1357,49 @@
       );
 
       return;
+
     }
 
 
-    currentPage = page;
+    currentPage =
+      page;
 
 
-    // تحديث شكل الأزرار
+    // تحديث الأزرار
 
     document
       .querySelectorAll(".page-button")
-      .forEach(function(button) {
+      .forEach(
+        function(button) {
 
-        button.classList.remove("active");
+          button.classList.remove(
+            "active"
+          );
 
-        if (
-          button.dataset.page === page
-        ) {
 
-          button.classList.add("active");
+          if (
+            button.dataset.page === page
+          ) {
+
+            button.classList.add(
+              "active"
+            );
+
+          }
 
         }
-
-      });
-
-
-    // اسم الملف
-
-    document.getElementById(
-      "currentFile"
-    ).textContent =
-      "الملف الحالي: " +
-      PAGE_FILES[page];
+      );
 
 
-    // تنظيف البيانات القديمة
+    // تحديث الرابط
+
+    updatePageLink();
+
+
+    // تنظيف البيانات
 
     courses = [];
+
 
     document.getElementById(
       "courseSelect"
@@ -480,23 +1424,32 @@
 
     document.getElementById(
       "formArea"
-    ).style.display = "none";
+    ).style.display =
+      "none";
 
 
     document.getElementById(
       "loading"
-    ).style.display = "block";
+    ).style.display =
+      "block";
 
 
     document.getElementById(
       "loading"
-    ).textContent =
+    ).innerHTML =
+
+      '<div class="loader"></div>' +
+
+      '<div>' +
+
       "جاري تحميل دورات " +
+
       PAGE_FILES[page] +
-      "...";
 
+      "..." +
 
-    // تحميل الدورات الجديدة
+      '</div>';
+
 
     await loadCourses();
 
@@ -509,35 +1462,43 @@
 
   async function loadCourses() {
 
+
     const loading =
-      document.getElementById("loading");
+      document.getElementById(
+        "loading"
+      );
+
 
     const formArea =
-      document.getElementById("formArea");
+      document.getElementById(
+        "formArea"
+      );
 
 
-    loading.style.display = "block";
+    loading.style.display =
+      "block";
 
-    formArea.style.display = "none";
+
+    formArea.style.display =
+      "none";
 
 
     try {
+
 
       const url =
         API_URL +
         "?action=getCourses" +
         "&page=" +
-        encodeURIComponent(currentPage);
-
-
-      console.log(
-        "Get Courses URL:",
-        url
-      );
+        encodeURIComponent(
+          currentPage
+        );
 
 
       const response =
-        await fetch(url);
+        await fetch(
+          url
+        );
 
 
       if (!response.ok) {
@@ -552,12 +1513,6 @@
 
       const result =
         await response.json();
-
-
-      console.log(
-        "Courses:",
-        result
-      );
 
 
       if (!result.success) {
@@ -580,17 +1535,23 @@
       loading.style.display =
         "none";
 
+
       formArea.style.display =
         "block";
 
 
     } catch (error) {
 
+
       console.error(error);
 
 
       loading.innerHTML =
-        "❌ حدث خطأ أثناء تحميل الدورات<br><br>" +
+
+        "❌ حدث خطأ أثناء تحميل الدورات" +
+
+        "<br><br>" +
+
         error.message;
 
     }
@@ -604,6 +1565,7 @@
 
   function fillCourseSelect() {
 
+
     const select =
       document.getElementById(
         "courseSelect"
@@ -616,6 +1578,7 @@
 
     courses.forEach(
       function(course, index) {
+
 
         const option =
           document.createElement(
@@ -635,6 +1598,7 @@
           option
         );
 
+
       }
     );
 
@@ -646,16 +1610,20 @@
   // ==========================================================
 
   document
-    .getElementById("courseSelect")
+    .getElementById(
+      "courseSelect"
+    )
     .addEventListener(
       "change",
       function () {
+
 
         const index =
           this.value;
 
 
         if (index === "") {
+
 
           document.getElementById(
             "courseName"
@@ -707,12 +1675,13 @@
 
 
   // ==========================================================
-  // 📅 تحويل التاريخ إلى input date
+  // 📅 تحويل التاريخ
   // ==========================================================
 
   function convertToDateInput(
     dateString
   ) {
+
 
     if (!dateString) {
 
@@ -737,19 +1706,27 @@
 
 
     const month =
-      parts[1].padStart(2, "0");
+      parts[1].padStart(
+        2,
+        "0"
+      );
 
 
     const day =
-      parts[2].padStart(2, "0");
+      parts[2].padStart(
+        2,
+        "0"
+      );
 
 
     return (
+
       year +
       "-" +
       month +
       "-" +
       day
+
     );
 
   }
@@ -760,6 +1737,7 @@
   // ==========================================================
 
   async function saveCourse() {
+
 
     const select =
       document.getElementById(
@@ -773,19 +1751,9 @@
       );
 
 
-    const message =
-      document.getElementById(
-        "message"
-      );
-
-
     const index =
       select.value;
 
-
-    // ------------------------------------------
-    // التحقق من اختيار الدورة
-    // ------------------------------------------
 
     if (index === "") {
 
@@ -823,10 +1791,6 @@
         "endDate"
       ).value;
 
-
-    // ------------------------------------------
-    // التحقق من البيانات
-    // ------------------------------------------
 
     if (!newName) {
 
@@ -876,10 +1840,6 @@
     }
 
 
-    // ------------------------------------------
-    // تعطيل الزر
-    // ------------------------------------------
-
     saveButton.disabled =
       true;
 
@@ -888,19 +1848,8 @@
       "⏳ جاري الحفظ...";
 
 
-    message.className =
-      "message";
-
-
-    message.style.display =
-      "none";
-
-
     try {
 
-      // ----------------------------------------
-      // تجهيز البيانات
-      // ----------------------------------------
 
       const params =
         new URLSearchParams();
@@ -932,30 +1881,24 @@
 
       params.append(
         "start",
-        removeLeadingZeros(start)
+        removeLeadingZeros(
+          start
+        )
       );
 
 
       params.append(
         "end",
-        removeLeadingZeros(end)
+        removeLeadingZeros(
+          end
+        )
       );
 
-
-      // ----------------------------------------
-      // إرسال التعديل باستخدام GET
-      // ----------------------------------------
 
       const requestUrl =
         API_URL +
         "?" +
         params.toString();
-
-
-      console.log(
-        "Update URL:",
-        requestUrl
-      );
 
 
       const response =
@@ -978,12 +1921,6 @@
         await response.json();
 
 
-      console.log(
-        "Update result:",
-        result
-      );
-
-
       if (!result.success) {
 
         throw new Error(
@@ -994,24 +1931,14 @@
       }
 
 
-      // ----------------------------------------
-      // نجاح
-      // ----------------------------------------
-
-      showMessage(
-        "✅ تم حفظ تعديل الدورة بنجاح في " +
-        PAGE_FILES[currentPage],
-        "success"
-      );
-
-
-      // ----------------------------------------
-      // تحديث البيانات محليًا
-      // ----------------------------------------
+      // =====================================================
+      // 🎉 نجاح الحفظ
+      // =====================================================
 
       courses[index] = {
 
-        name: newName,
+        name:
+          newName,
 
         start:
           removeLeadingZeros(
@@ -1033,19 +1960,38 @@
         index;
 
 
+      showMessage(
+
+        "✅ تم حفظ تعديل الدورة بنجاح" +
+
+        "<br>" +
+
+        "🔗 يمكنك الآن نسخ رابط الصفحة وإرساله",
+
+        "success"
+
+      );
+
+
     } catch (error) {
+
 
       console.error(error);
 
 
       showMessage(
+
         "❌ حدث خطأ أثناء الحفظ: " +
+
         error.message,
+
         "error"
+
       );
 
 
     } finally {
+
 
       saveButton.disabled =
         false;
@@ -1060,12 +2006,13 @@
 
 
   // ==========================================================
-  // 📅 إزالة الأصفار من التاريخ
+  // 📅 إزالة الأصفار
   // ==========================================================
 
   function removeLeadingZeros(
     dateString
   ) {
+
 
     const parts =
       dateString.split("-");
@@ -1096,7 +2043,7 @@
 
 
   // ==========================================================
-  // 💬 إظهار رسالة
+  // 💬 إظهار الرسالة
   // ==========================================================
 
   function showMessage(
@@ -1104,18 +2051,20 @@
     type
   ) {
 
+
     const message =
       document.getElementById(
         "message"
       );
 
 
-    message.textContent =
+    message.innerHTML =
       text;
 
 
     message.className =
-      "message " + type;
+      "message " +
+      type;
 
 
     message.style.display =
@@ -1123,7 +2072,10 @@
 
   }
 
+
 </script>
 
+
 </body>
+
 </html>
