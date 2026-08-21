@@ -2373,6 +2373,31 @@
 
   }
 
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.body.addEventListener("click", function () {
+        const elem = document.documentElement;
+        if (
+          !document.fullscreenElement &&
+          !document.webkitFullscreenElement &&
+          !document.msFullscreenElement
+        ) {
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen(); // Safari
+          } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen(); // IE11
+          } else {
+            alert("المتصفح لا يدعم fullscreen.");
+          }
+        }
+      }, { once: true });
+    });
+  </script>
+
+
 
 </script>
 
