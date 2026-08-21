@@ -7,9 +7,10 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-  <title>تعديل بيانات الدورات</title>
+  <title>لوحة إدارة الدورات</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -22,13 +23,13 @@
     }
 
     .container {
-      width: min(600px, 94%);
+      width: min(650px, 94%);
       margin: 35px auto;
     }
 
     .card {
       background: white;
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 25px;
       box-shadow: 0 5px 25px rgba(0,0,0,0.08);
     }
@@ -38,6 +39,47 @@
       margin-top: 0;
       margin-bottom: 25px;
       font-size: 26px;
+    }
+
+    /* ==========================================================
+       أزرار الصفحات الثلاث
+       ========================================================== */
+
+    .page-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .page-button {
+      margin: 0;
+      padding: 13px 8px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #e9ecef;
+      color: #333;
+      transition: 0.2s;
+    }
+
+    .page-button:hover {
+      opacity: 0.9;
+    }
+
+    .page-button.active {
+      background: #0d6efd;
+      color: white;
+    }
+
+    .page-title {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #0d6efd;
+      font-size: 18px;
     }
 
     label {
@@ -63,7 +105,7 @@
       text-align: left;
     }
 
-    button {
+    #saveButton {
       width: 100%;
       margin-top: 25px;
       padding: 14px;
@@ -76,11 +118,11 @@
       color: white;
     }
 
-    button:hover {
+    #saveButton:hover {
       opacity: 0.9;
     }
 
-    button:disabled {
+    #saveButton:disabled {
       background: #999;
       cursor: not-allowed;
     }
@@ -121,6 +163,29 @@
       font-size: 14px;
       line-height: 1.7;
     }
+
+    .current-file {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    @media (max-width: 500px) {
+
+      .page-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .page-button {
+        padding: 14px;
+      }
+
+    }
+
   </style>
 </head>
 
@@ -131,28 +196,94 @@
 
   <div class="card">
 
-    <h1>✏️ تعديل بيانات الدورة</h1>
+    <h1>
+      ✏️ لوحة إدارة الدورات
+    </h1>
+
+
+    <!-- ==========================================================
+         أزرار الصفحات الثلاث
+         ========================================================== -->
+
+    <div class="page-buttons">
+
+      <button
+        type="button"
+        class="page-button active"
+        data-page="index1"
+        onclick="changePage('index1')">
+
+        🟦 الصفحة الأولى
+
+      </button>
+
+
+      <button
+        type="button"
+        class="page-button"
+        data-page="index2"
+        onclick="changePage('index2')">
+
+        🟩 الصفحة الثانية
+
+      </button>
+
+
+      <button
+        type="button"
+        class="page-button"
+        data-page="index3"
+        onclick="changePage('index3')">
+
+        🟧 الصفحة الثالثة
+
+      </button>
+
+    </div>
+
+
+    <!-- اسم الملف الحالي -->
+
+    <div
+      id="currentFile"
+      class="current-file">
+
+      الملف الحالي: index.html
+
+    </div>
+
 
     <div id="loading" class="loading">
+
       جاري تحميل الدورات...
+
     </div>
 
 
     <div id="formArea" style="display:none;">
 
-      <!-- اختيار الدورة -->
+
+      <!-- ==========================================================
+           اختيار الدورة
+           ========================================================== -->
+
       <label for="courseSelect">
         اختر الدورة
       </label>
 
       <select id="courseSelect">
+
         <option value="">
           اختر الدورة...
         </option>
+
       </select>
 
 
-      <!-- اسم الدورة -->
+      <!-- ==========================================================
+           اسم الدورة
+           ========================================================== -->
+
       <label for="courseName">
         اسم الدورة
       </label>
@@ -160,48 +291,63 @@
       <input
         type="text"
         id="courseName"
-        placeholder="اكتب اسم الدورة"
-      >
+        placeholder="اكتب اسم الدورة">
 
 
-      <!-- تاريخ البداية -->
+      <!-- ==========================================================
+           تاريخ البداية
+           ========================================================== -->
+
       <label for="startDate">
         تاريخ البداية
       </label>
 
       <input
         type="date"
-        id="startDate"
-      >
+        id="startDate">
 
 
-      <!-- تاريخ النهاية -->
+      <!-- ==========================================================
+           تاريخ النهاية
+           ========================================================== -->
+
       <label for="endDate">
         تاريخ النهاية
       </label>
 
       <input
         type="date"
-        id="endDate"
-      >
+        id="endDate">
 
 
-      <!-- زر الحفظ -->
+      <!-- ==========================================================
+           زر الحفظ
+           ========================================================== -->
+
       <button
         id="saveButton"
-        onclick="saveCourse()"
-      >
+        onclick="saveCourse()">
+
         💾 حفظ التعديل
+
       </button>
 
 
-      <!-- رسالة -->
-      <div id="message" class="message"></div>
+      <!-- ==========================================================
+           الرسالة
+           ========================================================== -->
+
+      <div
+        id="message"
+        class="message">
+      </div>
 
 
       <div class="note">
+
         ⚠️ بعد الحفظ، قد يستغرق ظهور التعديل على الموقع
         دقيقة أو دقيقتين بسبب GitHub Pages.
+
       </div>
 
     </div>
@@ -216,16 +362,11 @@
   // ==========================================================
   // 🔗 رابط Google Apps Script
   // ==========================================================
-  //
-  // مهم جدًا:
-  // ضع هنا رابط Web App الذي نسخته من:
-  //
-  // Deploy → Manage deployments → Web app → URL
-  //
-  // ==========================================================
 
   const API_URL =
-    "https://script.google.com/macros/s/AKfycbz3XxPKP-nTD0JUb15TcBt4-WEMfnHNg_TAaoOHCf-SQMt4oV-pySfeKbzGUqEY_U6Z/exec";
+    "https://script.google.com/macros/s/" +
+    "AKfycbz3XxPKP-nTD0JUb15TcBt4-WEMfnHNg_TAaoOHCf-SQMt4oV-pySfeKbzGUqEY_U6Z" +
+    "/exec";
 
 
   // ==========================================================
@@ -234,16 +375,134 @@
 
   let courses = [];
 
+  let currentPage = "index1";
+
+
+  // ==========================================================
+  // 📄 أسماء الملفات
+  // ==========================================================
+
+  const PAGE_FILES = {
+
+    index1: "index.html",
+
+    index2: "index2.html",
+
+    index3: "index3.html"
+
+  };
+
 
   // ==========================================================
   // 🚀 عند فتح الصفحة
   // ==========================================================
 
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    loadCourses();
+      loadCourses();
 
-  });
+    }
+  );
+
+
+  // ==========================================================
+  // 🔄 تغيير الصفحة
+  // ==========================================================
+
+  async function changePage(page) {
+
+    if (!PAGE_FILES[page]) {
+
+      showMessage(
+        "صفحة غير صحيحة",
+        "error"
+      );
+
+      return;
+    }
+
+
+    currentPage = page;
+
+
+    // تحديث شكل الأزرار
+
+    document
+      .querySelectorAll(".page-button")
+      .forEach(function(button) {
+
+        button.classList.remove("active");
+
+        if (
+          button.dataset.page === page
+        ) {
+
+          button.classList.add("active");
+
+        }
+
+      });
+
+
+    // اسم الملف
+
+    document.getElementById(
+      "currentFile"
+    ).textContent =
+      "الملف الحالي: " +
+      PAGE_FILES[page];
+
+
+    // تنظيف البيانات القديمة
+
+    courses = [];
+
+    document.getElementById(
+      "courseSelect"
+    ).innerHTML =
+      '<option value="">اختر الدورة...</option>';
+
+
+    document.getElementById(
+      "courseName"
+    ).value = "";
+
+
+    document.getElementById(
+      "startDate"
+    ).value = "";
+
+
+    document.getElementById(
+      "endDate"
+    ).value = "";
+
+
+    document.getElementById(
+      "formArea"
+    ).style.display = "none";
+
+
+    document.getElementById(
+      "loading"
+    ).style.display = "block";
+
+
+    document.getElementById(
+      "loading"
+    ).textContent =
+      "جاري تحميل دورات " +
+      PAGE_FILES[page] +
+      "...";
+
+
+    // تحميل الدورات الجديدة
+
+    await loadCourses();
+
+  }
 
 
   // ==========================================================
@@ -259,12 +518,28 @@
       document.getElementById("formArea");
 
 
+    loading.style.display = "block";
+
+    formArea.style.display = "none";
+
+
     try {
 
+      const url =
+        API_URL +
+        "?action=getCourses" +
+        "&page=" +
+        encodeURIComponent(currentPage);
+
+
+      console.log(
+        "Get Courses URL:",
+        url
+      );
+
+
       const response =
-        await fetch(
-          API_URL + "?action=getCourses"
-        );
+        await fetch(url);
 
 
       if (!response.ok) {
@@ -281,7 +556,10 @@
         await response.json();
 
 
-      console.log("Courses:", result);
+      console.log(
+        "Courses:",
+        result
+      );
 
 
       if (!result.success) {
@@ -338,21 +616,29 @@
       '<option value="">اختر الدورة...</option>';
 
 
-    courses.forEach(function(course, index) {
+    courses.forEach(
+      function(course, index) {
 
-      const option =
-        document.createElement("option");
-
-
-      option.value = index;
-
-      option.textContent =
-        course.name;
+        const option =
+          document.createElement(
+            "option"
+          );
 
 
-      select.appendChild(option);
+        option.value =
+          index;
 
-    });
+
+        option.textContent =
+          course.name;
+
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
 
   }
 
@@ -377,15 +663,19 @@
             "courseName"
           ).value = "";
 
+
           document.getElementById(
             "startDate"
           ).value = "";
+
 
           document.getElementById(
             "endDate"
           ).value = "";
 
+
           return;
+
         }
 
 
@@ -419,13 +709,17 @@
 
 
   // ==========================================================
-  // 📅 تحويل التاريخ إلى صيغة input date
+  // 📅 تحويل التاريخ إلى input date
   // ==========================================================
 
-  function convertToDateInput(dateString) {
+  function convertToDateInput(
+    dateString
+  ) {
 
     if (!dateString) {
+
       return "";
+
     }
 
 
@@ -434,7 +728,9 @@
 
 
     if (parts.length !== 3) {
+
       return "";
+
     }
 
 
@@ -465,262 +761,337 @@
   // 💾 حفظ التعديل
   // ==========================================================
 
- async function saveCourse() {
+  async function saveCourse() {
 
-  const select =
-    document.getElementById("courseSelect");
-
-  const saveButton =
-    document.getElementById("saveButton");
-
-  const message =
-    document.getElementById("message");
-
-  const index =
-    select.value;
-
-
-  // ------------------------------------------
-  // التحقق من اختيار الدورة
-  // ------------------------------------------
-
-  if (index === "") {
-
-    showMessage(
-      "من فضلك اختر الدورة أولًا",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const oldCourse =
-    courses[index];
-
-  const newName =
-    document.getElementById("courseName").value.trim();
-
-  const start =
-    document.getElementById("startDate").value;
-
-  const end =
-    document.getElementById("endDate").value;
-
-
-  // ------------------------------------------
-  // التحقق من البيانات
-  // ------------------------------------------
-
-  if (!newName) {
-
-    showMessage(
-      "من فضلك اكتب اسم الدورة",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (!start) {
-
-    showMessage(
-      "من فضلك اختر تاريخ البداية",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (!end) {
-
-    showMessage(
-      "من فضلك اختر تاريخ النهاية",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (end < start) {
-
-    showMessage(
-      "تاريخ النهاية لا يمكن أن يكون قبل تاريخ البداية",
-      "error"
-    );
-
-    return;
-  }
-
-
-  // ------------------------------------------
-  // تعطيل الزر أثناء الحفظ
-  // ------------------------------------------
-
-  saveButton.disabled = true;
-
-  saveButton.textContent =
-    "⏳ جاري الحفظ...";
-
-  message.className = "message";
-
-  message.style.display = "none";
-
-
-  try {
-
-    // ----------------------------------------
-    // تجهيز البيانات
-    // ----------------------------------------
-
-    const params =
-      new URLSearchParams();
-
-    params.append(
-      "action",
-      "updateCourse"
-    );
-
-    params.append(
-      "oldName",
-      oldCourse.name
-    );
-
-    params.append(
-      "newName",
-      newName
-    );
-
-    params.append(
-      "start",
-      removeLeadingZeros(start)
-    );
-
-    params.append(
-      "end",
-      removeLeadingZeros(end)
-    );
-
-
-    // ----------------------------------------
-    // إرسال التعديل باستخدام GET
-    // ----------------------------------------
-
-    const requestUrl =
-      API_URL + "?" + params.toString();
-
-    console.log(
-      "Update URL:",
-      requestUrl
-    );
-
-
-    const response =
-      await fetch(requestUrl);
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "HTTP Error: " +
-        response.status
+    const select =
+      document.getElementById(
+        "courseSelect"
       );
+
+
+    const saveButton =
+      document.getElementById(
+        "saveButton"
+      );
+
+
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+
+    const index =
+      select.value;
+
+
+    // ------------------------------------------
+    // التحقق من اختيار الدورة
+    // ------------------------------------------
+
+    if (index === "") {
+
+      showMessage(
+        "من فضلك اختر الدورة أولًا",
+        "error"
+      );
+
+      return;
 
     }
 
 
-    const result =
-      await response.json();
+    const oldCourse =
+      courses[index];
 
 
-    console.log(
-      "Update result:",
-      result
-    );
+    const newName =
+      document
+        .getElementById(
+          "courseName"
+        )
+        .value
+        .trim();
 
 
-    if (!result.success) {
+    const start =
+      document.getElementById(
+        "startDate"
+      ).value;
 
-      throw new Error(
-        result.error ||
-        "فشل حفظ التعديل"
+
+    const end =
+      document.getElementById(
+        "endDate"
+      ).value;
+
+
+    // ------------------------------------------
+    // التحقق من البيانات
+    // ------------------------------------------
+
+    if (!newName) {
+
+      showMessage(
+        "من فضلك اكتب اسم الدورة",
+        "error"
       );
+
+      return;
 
     }
 
 
-    // ----------------------------------------
-    // نجاح
-    // ----------------------------------------
+    if (!start) {
 
-    showMessage(
-      "✅ تم حفظ تعديل الدورة بنجاح",
-      "success"
-    );
+      showMessage(
+        "من فضلك اختر تاريخ البداية",
+        "error"
+      );
 
+      return;
 
-    // ----------------------------------------
-    // تحديث البيانات محليًا
-    // ----------------------------------------
-
-    courses[index] = {
-
-      name: newName,
-
-      start:
-        removeLeadingZeros(start),
-
-      end:
-        removeLeadingZeros(end)
-
-    };
+    }
 
 
-    fillCourseSelect();
+    if (!end) {
 
-    select.value = index;
+      showMessage(
+        "من فضلك اختر تاريخ النهاية",
+        "error"
+      );
 
+      return;
 
-  } catch (error) {
-
-    console.error(error);
-
-    showMessage(
-      "❌ حدث خطأ أثناء الحفظ: " +
-      error.message,
-      "error"
-    );
+    }
 
 
-  } finally {
+    if (end < start) {
 
-    saveButton.disabled = false;
+      showMessage(
+        "تاريخ النهاية لا يمكن أن يكون قبل تاريخ البداية",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    // ------------------------------------------
+    // تعطيل الزر
+    // ------------------------------------------
+
+    saveButton.disabled =
+      true;
+
 
     saveButton.textContent =
-      "💾 حفظ التعديل";
+      "⏳ جاري الحفظ...";
+
+
+    message.className =
+      "message";
+
+
+    message.style.display =
+      "none";
+
+
+    try {
+
+      // ----------------------------------------
+      // تجهيز البيانات
+      // ----------------------------------------
+
+      const params =
+        new URLSearchParams();
+
+
+      params.append(
+        "action",
+        "updateCourse"
+      );
+
+
+      params.append(
+        "page",
+        currentPage
+      );
+
+
+      params.append(
+        "oldName",
+        oldCourse.name
+      );
+
+
+      params.append(
+        "newName",
+        newName
+      );
+
+
+      params.append(
+        "start",
+        removeLeadingZeros(start)
+      );
+
+
+      params.append(
+        "end",
+        removeLeadingZeros(end)
+      );
+
+
+      // ----------------------------------------
+      // إرسال التعديل باستخدام GET
+      // ----------------------------------------
+
+      const requestUrl =
+        API_URL +
+        "?" +
+        params.toString();
+
+
+      console.log(
+        "Update URL:",
+        requestUrl
+      );
+
+
+      const response =
+        await fetch(
+          requestUrl
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "HTTP Error: " +
+          response.status
+        );
+
+      }
+
+
+      const result =
+        await response.json();
+
+
+      console.log(
+        "Update result:",
+        result
+      );
+
+
+      if (!result.success) {
+
+        throw new Error(
+          result.error ||
+          "فشل حفظ التعديل"
+        );
+
+      }
+
+
+      // ----------------------------------------
+      // نجاح
+      // ----------------------------------------
+
+      showMessage(
+        "✅ تم حفظ تعديل الدورة بنجاح في " +
+        PAGE_FILES[currentPage],
+        "success"
+      );
+
+
+      // ----------------------------------------
+      // تحديث البيانات محليًا
+      // ----------------------------------------
+
+      courses[index] = {
+
+        name: newName,
+
+        start:
+          removeLeadingZeros(
+            start
+          ),
+
+        end:
+          removeLeadingZeros(
+            end
+          )
+
+      };
+
+
+      fillCourseSelect();
+
+
+      select.value =
+        index;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      showMessage(
+        "❌ حدث خطأ أثناء الحفظ: " +
+        error.message,
+        "error"
+      );
+
+
+    } finally {
+
+      saveButton.disabled =
+        false;
+
+
+      saveButton.textContent =
+        "💾 حفظ التعديل";
+
+    }
 
   }
 
-}  function removeLeadingZeros(dateString) {
+
+  // ==========================================================
+  // 📅 إزالة الأصفار من التاريخ
+  // ==========================================================
+
+  function removeLeadingZeros(
+    dateString
+  ) {
 
     const parts =
       dateString.split("-");
 
 
     if (parts.length !== 3) {
+
       return dateString;
+
     }
 
 
     return (
+
       Number(parts[0]) +
+
       "-" +
+
       Number(parts[1]) +
+
       "-" +
+
       Number(parts[2])
+
     );
 
   }
