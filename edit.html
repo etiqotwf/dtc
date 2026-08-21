@@ -1458,6 +1458,36 @@
 
 </div>
 
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  document.body.addEventListener("click", function () {
+
+    const elem = document.documentElement;
+
+    if (
+      !document.fullscreenElement &&
+      !document.webkitFullscreenElement &&
+      !document.msFullscreenElement
+    ) {
+
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+
+      }
+
+    }
+
+  }, { once: true });
+
+});
+</script>
 
 <script>
 
