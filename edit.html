@@ -1123,6 +1123,35 @@
 
 <body>
 
+<script>
+(function () {
+  const PASSWORD = "1550";
+
+  if (sessionStorage.getItem("editAccess") === "true") {
+    return;
+  }
+
+  let password;
+
+  while (true) {
+    password = prompt("🔐 صفحة التعديل محمية\nأدخل كلمة المرور:");
+
+    if (password === PASSWORD) {
+      sessionStorage.setItem("editAccess", "true");
+      break;
+    }
+
+    if (password === null) {
+      window.location.href = "https://etiqotwf.github.io/dtc/";
+      return;
+    }
+
+    alert("❌ كلمة المرور غير صحيحة");
+  }
+})();
+</script>
+  
+
 
 <div class="container">
 
