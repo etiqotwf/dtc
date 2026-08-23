@@ -1305,15 +1305,11 @@
 
   </div>
 
-</div>
-
-
-<!-- ✏️ تعديل -->
+<!-- ✏️ تعديل محمي بكلمة مرور -->
 <a
   class="quick-link edit-link"
-  href="https://docs.google.com/spreadsheets/d/1EgZGPTjoarPBfLNaxWw7CSqOLC-Vjnl477l0nxdJQZw/edit?usp=sharing"
-  target="_blank"
-  rel="noopener noreferrer"
+  href="#"
+  onclick="openEditWithPassword(event)"
 >
 
   <span class="quick-link-icon">
@@ -1335,6 +1331,9 @@
   </span>
 
 </a>
+        
+</div>
+
 
       
     </div>
@@ -2445,6 +2444,35 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
+<script>
+
+function openEditWithPassword(event) {
+
+  event.preventDefault();
+
+  const password = prompt("🔐 أدخل كلمة المرور لفتح ملف التعديل:");
+
+  if (password === null) {
+    return;
+  }
+
+  if (password === "1550") {
+
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1EgZGPTjoarPBfLNaxWw7CSqOLC-Vjnl477l0nxdJQZw/edit?usp=sharing",
+      "_blank"
+    );
+
+  } else {
+
+    alert("❌ كلمة المرور غير صحيحة");
+
+  }
+
+}
+
+</script>
+  
 </body>
 
 </html>
