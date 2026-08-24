@@ -1286,7 +1286,7 @@ function syncWithGoogleSheets() {
     // إذا فاضي → lastIndex = 0
     const lastIndex = (count === 0) ? 0 : (localStorage.getItem("lastSyncedIndex") || 0);
 
-    fetch(`https://script.google.com/macros/s/AKfycbxnMysXZo0ZZARa6BG-EpSSFS30GO57oRi32tw3hWdEvMT-f1i2o6ZScVfqhLWsWfMp/exec?lastIndex=${lastIndex}`)
+    fetch(`https://script.google.com/macros/s/AKfycbxnxTFkE7RGRrGZae8SZK81YzjqW8K4BGNBlgqeTMXLnhMdnyVBBJHdckCdglxy4oeK/exec?lastIndex=${lastIndex}`)
       .then(response => response.json())
       .then(data => {
         if (!Array.isArray(data)) {
