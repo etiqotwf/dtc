@@ -365,7 +365,7 @@ gap:12px;
   ">
 
     <!-- 🖼️ اللوجو الكبير -->
-    <img src="logo.jpg" alt="الشعار" style="
+    <img src="logooo.jpg" alt="الشعار" style="
       width: 120px; /* ✅ تم تكبير العرض */
       height: 120px; /* ✅ تم تكبير الارتفاع */
       border-radius: 50%;
@@ -3024,10 +3024,10 @@ rows.forEach(row => {
             align-items: flex-start;
             margin-bottom: 10px;
           }
-          .logo-container {
+          .logooo-container {
             text-align: center;
           }
-          .logo {
+          .logooo {
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -3036,7 +3036,7 @@ rows.forEach(row => {
             display: block;
             margin: 0 auto;
           }
-          .logo-caption {
+          .logooo-caption {
             font-size: 12px;
             font-weight: bold;
             margin-top: 5px;
@@ -3110,9 +3110,9 @@ rows.forEach(row => {
       </head>
       <body>
         <header>
-          <div class="logo-container">
-            <img src="logo.jpg" alt="الشعار" class="logo">
-            <div class="logo-caption">مركز تدريب الصرف بطنطا</div>
+          <div class="logooo-container">
+            <img src="logooo.jpg" alt="الشعار" class="logooo">
+            <div class="logooo-caption">مركز تدريب الصرف بطنطا</div>
           </div>
           <div class="header-info">
             <div class="center-title">جدول نتائج البحث للمتدربين</div>
