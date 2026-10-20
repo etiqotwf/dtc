@@ -479,7 +479,7 @@ box-shadow:
       opacity: 0.95;
       text-align: center;
     ">
-      ✍️ وحدة  تطوير البرمجيات والتطبيقات
+      ✍️ وحدة  تطوير البرمجيات 
 
     </div>
   </div>
@@ -1286,7 +1286,7 @@ function syncWithGoogleSheets() {
     // إذا فاضي → lastIndex = 0
     const lastIndex = (count === 0) ? 0 : (localStorage.getItem("lastSyncedIndex") || 0);
 
-    fetch(`https://script.google.com/macros/s/AKfycbw2Nkw1MNChlrA8tkuNOuVFtWrNiLIRj0aJrc4tTq-AiD4AmjVb7RmVmGB-p2TPyoHc/exec?lastIndex=${lastIndex}`)
+    fetch(`https://script.google.com/macros/s/AKfycbyluK4aWl2HXYIQISCUMGAhvUPJ_kntfrLyoqdyL8Q8HtDD32ZXU7708gdAfw39FEne/exec?lastIndex=${lastIndex}`)
       .then(response => response.json())
       .then(data => {
         if (!Array.isArray(data)) {
